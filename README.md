@@ -8,3 +8,6 @@ https://openinverter.org/shop/
 
 Files in DesignSpark PCB 8.1 Format
 https://www.rs-online.com/designspark/pcb-software
+
+Update : 18/08/22
+Added Sync serial logs and beta tool for organising toyota serial logs.
