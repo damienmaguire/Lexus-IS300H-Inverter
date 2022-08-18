@@ -57,6 +57,9 @@ for databyte in datafound:
 
 #write converted data to file with name as current timestamp and extension csv in "output" folder of app's folder
 datafile = os.path.dirname(__file__)
+if(datafile == ""):
+	datafile = "."
+
 if getattr(sys, "frozen", False):
 	datafile = os.path.dirname(os.path.dirname(datafile))
 dataroot = os.path.normpath(datafile + "/output")
