@@ -10,6 +10,7 @@ if argslen == 1:
 	print("\"dist/main/main.exe\" [path] [columns] [delimiter] [separator]")
 	print("path: absolute path to file to read")
 	print("columns: number of columns to divide bytes over; default is \"3\"")
+	print("format: output number format in the csv (bin, hex, dec), default is \"hex\"")
 	print("delimiter: regex character set to use when reading from file; default is whitespace (\"\\s\")")
 	print("separator: separator character to use when writing to file; default is comma (\",\")")
 	mainwindow = tk.Tk()
@@ -21,9 +22,12 @@ if argslen < 3:
 	#columns
 	sys.argv.append("3")
 if argslen < 4:
+        # format
+        sys.argv.append("hex")
+if argslen < 5:
 	#delimiter
 	sys.argv.append("\\s")
-if argslen < 5:
+if argslen < 6:
 	#separator
 	sys.argv.append(",")
 
@@ -38,14 +42,22 @@ with open(sys.argv[1], "rt") as datafile:
 	dataread = datafile.read()
 
 #convert data to csv format with specified amount columns
-datafound = re.findall("([0-9A-Fa-f]{2})" + sys.argv[3], dataread)
+datafound = re.findall("([0-9A-Fa-f]{2})" + sys.argv[4], dataread)
 dataoutput = ""
 datacounter = 0
 datacolumns = int(sys.argv[2])
 for databyte in datafound:
 	#count columns for current row
 	datacounter += 1
-	dataoutput += databyte
+
+	if sys.argv[3] == "dec":
+		dataoutput += format(int(databyte, 16), '0>3d')
+	elif sys.argv[3] == "bin":
+		dataoutput += format(int(databyte, 16), '0>8b')
+	else:
+		dataoutput += databyte
+
+
 	#check if amount of columns for current row is same as specified columns
 	if datacounter == datacolumns:
 		#add a new row
@@ -53,13 +65,13 @@ for databyte in datafound:
 		datacounter = 0
 	else:
 		#add a new column with specified delimiter
-		dataoutput += sys.argv[4]
+		dataoutput += sys.argv[5]
 
 #write converted data to file with name as current timestamp and extension csv in "output" folder of app's folder
 datafile = os.path.dirname(__file__)
 if(datafile == ""):
-	datafile = "."
-
+        datafile = "."
+        
 if getattr(sys, "frozen", False):
 	datafile = os.path.dirname(os.path.dirname(datafile))
 dataroot = os.path.normpath(datafile + "/output")
