@@ -11,3 +11,10 @@ https://www.rs-online.com/designspark/pcb-software
 
 Update : 18/08/22
 Added Sync serial logs and beta tool for organising toyota serial logs.
+
+23/08/22 : Added basic code for Lexus VCU to run GS300h system.
+
+ATTENTION : THE IS300H USES A 140 BYTE MYH PACKAGE. THE ARDUINO LIBRARY LIMITS THE RINGBUFFER SIZE TO 128 BYTES.
+YOU MUST MODIFY THIS TO 150 IN ringbuffer.h TO RUN THIS CODE!!!
+https://github.com/arduino/ArduinoCore-sam/blob/790ff2c852bf159787a9966bddee4d9f55352d15/cores/arduino/RingBuffer.h#L28
+ 
